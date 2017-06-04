@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <link href="blog.css" rel="stylesheet" />
-    <title>MicroCMS - Home</title>
+    <title>Blog - Home</title>
 </head>
 <body>
     <header>
-        <h1>MicroCMS</h1>
+        <h1>Blog</h1>
     </header>
     <?php
     $bdd = new PDO('mysql:host=localhost;dbname=p3_blog;charset=utf8', 'root', 'root');
