@@ -5,5 +5,29 @@ body {
 .footer {
     border-top: 1px solid #ccc;
     padding-top: 10px;
-    text-align: center;
+}
+
+.fa:hover
+{
+	color: orange;
+}
+
+.fa-facebook-official
+{
+	color: #3b5998;
+}
+
+.fa-twitter-square
+{
+	color: #33CCFF;
+}
+
+.fa-google-plus-square
+{
+	color: #DD4B39;
+}
+
+.fa-flickr
+{
+	color: #0063DC;
 }

@@ -21,6 +21,11 @@
                     <a class="navbar-brand" href="">Jean Forteroche</a>
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-collapse-target">
+                     <ul class="nav navbar-nav">
+                        <li class="active"><a href="/"><i class="fa fa-home" aria-hidden="true"></i> Accueil</a></li>
+                        <li><a href="/blog"><i class="fa fa-book" aria-hidden="true"></i> Blog</a></li>
+                        <li><a href="/contact"><i class="fa fa-envelope-o" aria-hidden="true"></i> Contact</a></li>
+                    </ul>
                 </div>
             </div><!-- /.container -->
         </nav>
@@ -30,9 +35,67 @@
             <p>{{ article.content }}</p>
         </article>
         {% endfor %}
+        
         <footer class="footer">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <h3>Liens de navigation</h3>
+                <ul>
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
             
-        </footer>
+            <div class="col-sm-3">
+            <h3>Les derniers épisodes</h3>
+                <ul>
+                    {% for article in articles %}
+                    <li><a href="article/{{article.id}}">{{article.title}}</a></li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+            <div class="col-sm-3">
+            <h3>Me suivre sur les réseaux sociaux</h3>
+            
+                <a href="http://facebook.com"><i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i></a>
+                <a href="http://twitter.com"><i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i></a>
+                <a href="http://googleplus.com"><i class="fa fa-google-plus-square fa-2x" aria-hidden="true"></i></a>
+                <a href="http://flickr.com"><i class="fa fa-flickr fa-2x" aria-hidden="true"></i></a>
+           
+
+            </div>
+
+            <div class="col-sm-3">
+            <h3>Newsletter</h3>
+
+            <form action="" method="POST">
+  
+    <div class="form-group">
+      <input id="mail" type="mail" class="form-control" placeholder="adresse@mail.com">
     </div>
+    <div class="form-group">
+      <input id="text" type="text" class="form-control" placeholder="Votre prénom" />
+    </div>
+
+    <button class="btn btn-primary">S'inscrire</button>
+</form>
+            
+
+            </div>
+
+        </div>
+
+        </footer>
+
+
+    </div>
+
+    <script src="{{ asset('lib/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('lib/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="https://use.fontawesome.com/d31962f2d2.js"></script>
 </body>
 </html>
