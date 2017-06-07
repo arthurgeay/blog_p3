@@ -32,6 +32,14 @@ class Comment
      */
     private $article;
 
+    /**
+     * Reply of a comment
+     * @var integer
+     */
+    private $reply;
+
+    // GETTERS
+
     public function getId() {
         return $this->id;
     }
@@ -54,6 +62,9 @@ class Comment
         return $this->content;
     }
 
+
+    // SETTERS
+
     public function setContent($content) {
         $this->content = $content;
         return $this;
@@ -65,6 +76,17 @@ class Comment
 
     public function setArticle(Article $article) {
         $this->article = $article;
+        return $this;
+    }
+
+    public function getReply()
+    {
+        return $this->reply;
+    }
+
+    public function setReply($reply)
+    {
+        $this->reply = $reply;
         return $this;
     }
 }
