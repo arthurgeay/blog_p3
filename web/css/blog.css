@@ -31,3 +31,28 @@ body {
 {
 	color: #0063DC;
 }
+
+
+.item img
+{
+	border-radius: 5px;
+}
+
+.jprofil
+{
+	width: auto;
+	border-radius: 10px;
+	float: left;
+	margin-right: 15px;
+}
+
+
+.clearfix
+{
+	clear: right;
+}
+
+.presentation
+{
+	text-align: justify;
+}
