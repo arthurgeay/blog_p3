@@ -56,3 +56,8 @@ body {
 {
 	text-align: justify;
 }
+
+.articleTitle:hover, .articleTitle:focus
+{
+	text-decoration: none;
+}

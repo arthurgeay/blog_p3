@@ -1,157 +1,56 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{{ asset('/lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/blog.css') }}" rel="stylesheet">
-    <title>Accueil</title>
-</head>
-<body>
-    <div class="container">
-        <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-target">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="">Jean Forteroche</a>
-                </div>
-                
-                <div class="collapse navbar-collapse" id="navbar-collapse-target">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="/"><i class="fa fa-home" aria-hidden="true"></i> Accueil</a></li>
-                        <li><a href="/blog"><i class="fa fa-book" aria-hidden="true"></i> Blog</a></li>
-                        <li><a href="/contact"><i class="fa fa-envelope-o" aria-hidden="true"></i> Contact</a></li>
-                    </ul>
-                </div>
-            </div><!-- /.container -->
-        </nav>
-        
-     <h2>Bienvenue sur le site de Jean Forteroche !</h2>
+{% extends "layout.html.twig" %}
 
+{% block title %}Accueil{% endblock %}
 
-    <!-- Carousel -->    
-    
-    <div id="carousel" class="carousel slide" data-ride="carousel">
+{% block content %}
 
-        <ol class="carousel-indicators">
-    <li data-target="#carousel" data-slide-to="0" class="active"></li>
-    <li data-target="#carousel" data-slide-to="1"></li>
-    <li data-target="#carousel" data-slide-to="2"></li>
-  </ol>
-      <div class="carousel-inner">
+<h2>Bienvenue sur le site de Jean Forteroche !</h2>
+<!-- Carousel -->
+
+<div id="carousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel" data-slide-to="1"></li>
+        <li data-target="#carousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
         
         <div class="item active"> <img alt="" src="{{ asset('/img/alaska.jpeg')}}">
             <a href="article/3"><h1 class="carousel-caption">Lorem ipsum in french</h1></a></div>
             
-        <div class="item"> <img alt="" src="{{ asset('/img/alaska-glacier-ice-mountains.jpg')}}"><a href="article/2"><h1 class="carousel-caption">Lorem ipsum</h1></a></div>
+            <div class="item"> <img alt="" src="{{ asset('/img/alaska-glacier-ice-mountains.jpg')}}"><a href="article/2"><h1 class="carousel-caption">Lorem ipsum</h1></a></div>
+            
+            <div class="item"> <img alt="" src="{{ asset('/img/wood-landscape-mountains-nature.jpg')}}"><a href="article/1"><h1 class="carousel-caption">First Article</h1></a></div>
+            
+        </div>
         
-        <div class="item"> <img alt="" src="{{ asset('/img/wood-landscape-mountains-nature.jpg')}}"><a href="article/1"><h1 class="carousel-caption">First Article</h1></a></div>
-        
-      </div>
-       
-       <a class="left carousel-control" href="#carousel" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
-  </a>
-  <a class="right carousel-control" href="#carousel" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
-  </a>
-
-
+        <a class="left carousel-control" href="#carousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
     </div>
+    
+    <!-- Bloc présentation -->
+    <h2>Présentation de l'auteur</h2>
 
-
-        
-        <h2>Présentation de l'auteur</h2>
-
-        <p><img class="jprofil" src="{{ asset('/img/jeanf.jpeg')}}" /></p>
-
-
-
-        <p>Bonjour et bienvenue sur mon site ! Je m'appelle Jean Forteroche, je suis acteur et écrivain.</p>
-
-            <h4>Mon projet</h4>
-            
-            <p>Depuis quelques temps maintenant, j'ai commencé l'écriture de mon nouveau roman "Billet simple pour l'Alaska".<br /> Cependant, j'ai voulu innover en publiant mon roman sur mon blog.<br />
-            Le fonctionnement est très simple, je publie régulièrement par "épisode", des petits chapitres de mon roman.</p>
-            <p>Vous pouvez consulter les premiers épisodes <a href="blog">ici</a> !</p>
-
-            
-            <div class="clearfix">
-            <h4>Être au courant des dernières publications ?</h4>
+    <p><img class="jprofil" src="{{ asset('/img/jeanf.jpeg')}}" /></p>
+    <p>Bonjour et bienvenue sur mon site ! Je m'appelle Jean Forteroche, je suis acteur et écrivain.</p>
+    <h4>Mon projet</h4>
+    
+    <p>Depuis quelques temps maintenant, j'ai commencé l'écriture de mon nouveau roman "Billet simple pour l'Alaska".<br /> Cependant, j'ai voulu innover en publiant mon roman sur mon blog.<br />
+    Le fonctionnement est très simple, je publie régulièrement par "épisode", des petits chapitres de mon roman.</p>
+    <p>Vous pouvez consulter les premiers épisodes <a href="blog">ici</a> !</p>
+    
+    <div class="clearfix">
+        <h4>Être au courant des dernières publications ?</h4>
         <p>Il suffit de descendre tout en bas de cette page. Vous trouverez une partie <strong>"Newsletter"</strong>.<br /> Il vous suffira alors de renseigner les coordonnées demandés et vous recevrez ensuite un mail lorsqu'un épisode sera publié,<br /> de même lorsque je voudrais contacter, informer mes lecteurs je le ferais par ce biais ou par le blog directement.</p>
-        </div>
+    </div>
 
-        <h4>Me suivre, me contacter ?</h4>
+    <h4>Me suivre, me contacter ?</h4>
+    <p>Pour me suivre sur les différents réseaux sociaux, vous pouvez cliquer sur les différents logos en bas de la page.
+    <br /> Pour me contacter, il vous suffit de vous rendre sur la page <a href="contact">contact</a> de mon site. <br />Vous devrez remplir un formulaire de contact avec vos coordonnées et votre message.</p>
 
-        <p>Pour me suivre sur les différents réseaux sociaux, vous pouvez cliquer sur les différents logos en bas de la page.
-        <br /> Pour me contacter, il vous suffit de vous rendre sur la page <a href="contact">contact</a> de mon site. <br />Vous devrez remplir un formulaire de contact avec vos coordonnées et votre message.</p>
+    {% endblock %}
       
-
-      
-
-
-        <footer class="footer">
-        <div class="row">
-
-            <div class="col-sm-3">
-                <h3>Liens de navigation</h3>
-                <ul>
-                    <li><a href="/">Accueil</a></li>
-                    <li><a href="/blog">Blog</a></li>
-                    <li><a href="/contact">Contact</a></li>
-                </ul>
-            </div>
-            
-            <div class="col-sm-3">
-            <h3>Les derniers épisodes</h3>
-                <ul>
-                    {% for article in articles %}
-                    <li><a href="article/{{article.id}}">{{article.title}}</a></li>
-                    {% endfor %}
-                </ul>
-
-            </div>
-
-            <div class="col-sm-3">
-            <h3>Me suivre sur les réseaux sociaux</h3>
-            
-                <a href="http://facebook.com"><i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i></a>
-                <a href="http://twitter.com"><i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i></a>
-                <a href="http://googleplus.com"><i class="fa fa-google-plus-square fa-2x" aria-hidden="true"></i></a>
-                <a href="http://flickr.com"><i class="fa fa-flickr fa-2x" aria-hidden="true"></i></a>
-           
-
-            </div>
-
-            <div class="col-sm-3">
-            <h3>Newsletter</h3>
-
-            <form action="" method="POST">
-  
-    <div class="form-group">
-      <input id="mail" type="mail" class="form-control" placeholder="adresse@mail.com">
-    </div>
-    <div class="form-group">
-      <input id="text" type="text" class="form-control" placeholder="Votre prénom" />
-    </div>
-
-    <button class="btn btn-primary">S'inscrire</button>
-</form>
-            
-
-            </div>
-
-        </div>
-
-        </footer>
-    </div>
-    <script src="{{ asset('lib/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('lib/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="https://use.fontawesome.com/d31962f2d2.js"></script>
-</body>
-</html>
