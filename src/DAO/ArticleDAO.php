@@ -41,7 +41,7 @@ class ArticleDAO extends DAO
         if ($row)
             return $this->buildDomainObject($row);
         else
-            throw new \Exception("No article matching id " . $id);
+            throw new \Exception("Aucun article n'a l'identifiant : " . $id);
     }
 
     /**
