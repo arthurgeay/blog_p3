@@ -30,6 +30,10 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
     ),
 ));
 
+$app->register(new Silex\Provider\FormServiceProvider());
+$app->register(new Silex\Provider\LocaleServiceProvider());
+$app->register(new Silex\Provider\TranslationServiceProvider());
+
 // Register services
 $app['dao.article'] = function ($app) {
     return new blog_p3\DAO\ArticleDAO($app['db']);
