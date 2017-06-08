@@ -6,7 +6,7 @@
 <p>
     <h2>{{ article.title }}</h2>
     <p>{{ article.content }}</p>
-    <h3>Comments</h3>
+    <h3>Commentaires</h3>
     {% for comment in comments %}
         <strong>{{ comment.author }}</strong> dit : {{ comment.content }}<br>
     {% else %}
