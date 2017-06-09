@@ -19,19 +19,23 @@ $app->get('/blog', function () use ($app) {
 // Article details with comments
 $app->match('/article/{id}', function ($id, Request $request) use ($app) {
 	$articles = $app['dao.article']->findAll();
+
     $article = $app['dao.article']->find($id);
 
-    $commentFormView = null;
+    
     $comment = new Comment();
     $comment->setArticle($article);
     $commentForm = $app['form.factory']->create(CommentType::class, $comment);
     $commentForm->handleRequest($request);
+
+    
 
     if ($commentForm->isSubmitted() && $commentForm->isValid()) {
             $app['dao.comment']->save($comment);
             $app['session']->getFlashBag()->add('success', 'Votre commentaire a bien été ajouté.');
         }
         $commentFormView = $commentForm->createView();
+
 
 
 
