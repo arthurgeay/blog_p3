@@ -8,12 +8,16 @@
     <p>{{ article.content }}</p>
     <h3>Commentaires</h3>
     {% for comment in comments %}
-        <strong>{{ comment.author }}</strong><br />
-        {{ comment.content }}
-        <p><a href="#"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</a> - <a href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</a></p>
+        <div class="well">
+            <strong>{{ comment.author }}</strong><br />
+            {{ comment.content }}
+            <p><a class="btn btn-default" href="#"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</a> - <a class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</a>
+            </p>
+        </div>
     {% else %}
         Pas de commentaires.
     {% endfor %}
+
 
     <h3>Ajouter un commentaire</h3>
 
