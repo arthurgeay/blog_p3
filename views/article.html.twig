@@ -5,6 +5,7 @@
 {% block content %}
 <p>
     <h2>{{ article.title }}</h2>
+    <p>Publié le {{article.date}}</p>
     <p>{{ article.content }}</p>
     <h3>Commentaires</h3>
     {% for comment in comments %}

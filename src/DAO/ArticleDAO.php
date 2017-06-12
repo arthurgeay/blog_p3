@@ -4,6 +4,8 @@ namespace blog_p3\DAO;
 
 use Doctrine\DBAL\Connection;
 use blog_p3\Domain\Article;
+use \IntlDateFormatter;
+use \DateTime;
 
 class ArticleDAO extends DAO
 {
@@ -15,7 +17,7 @@ class ArticleDAO extends DAO
      * @return array A list of all articles.
      */
     public function findAll() {
-        $sql = "select * from t_article order by art_id desc";
+        $sql = "select art_id, art_title, art_content, DATE_FORMAT(art_date, '%d/%m/%Y') as date from t_article order by art_id desc";
         $result = $this->getDb()->fetchAll($sql);
         
         // Convert query result to an array of domain objects
@@ -28,16 +30,25 @@ class ArticleDAO extends DAO
     }
 
     /**
-     * Returns an article matching the supplied id.
+     * Returns an article matching the supplied id whith date of publication
      *
      * @param integer $id
      *
      * @return \blog_p3\Domain\Article|throws an exception if no matching article is found
      */
     public function find($id) {
-        $sql = "select * from t_article where art_id=?";
+        $sql = "select art_id, art_title, art_content, art_date as date from t_article where art_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
+
+        $formatter = new IntlDateFormatter('fr_FR',IntlDateFormatter::FULL,
+                IntlDateFormatter::NONE,
+                'Europe/Paris',
+                IntlDateFormatter::GREGORIAN );
+        $date = new DateTime($row['date']);
+
+        $row['date'] = $formatter->format($date);
+        
         if ($row)
             return $this->buildDomainObject($row);
         else
@@ -55,6 +66,7 @@ class ArticleDAO extends DAO
         $article->setId($row['art_id']);
         $article->setTitle($row['art_title']);
         $article->setContent($row['art_content']);
+        $article->setDate($row['date']);
         return $article;
     }
 }
