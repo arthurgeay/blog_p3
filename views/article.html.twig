@@ -11,6 +11,7 @@
     {% for comment in comments %}
         <div class="well">
             <strong>{{ comment.author }}</strong><br />
+            <p>{{comment.date}}</p>
             {{ comment.content }}
             <p><a class="btn btn-default" href="#"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</a> - <a class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</a>
             </p>

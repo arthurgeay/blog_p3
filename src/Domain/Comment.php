@@ -38,7 +38,11 @@ class Comment
      */
     private $reply;
 
-    // GETTERS
+    /**
+     * Date of comment
+     * @var string
+     */
+    private $date;
 
     public function getId() {
         return $this->id;
@@ -62,9 +66,6 @@ class Comment
         return $this->content;
     }
 
-
-    // SETTERS
-
     public function setContent($content) {
         $this->content = $content;
         return $this;
@@ -87,6 +88,17 @@ class Comment
     public function setReply($reply)
     {
         $this->reply = $reply;
+        return $this;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    public function setDate($date)
+    {
+        $this->date = $date;
         return $this;
     }
 }
