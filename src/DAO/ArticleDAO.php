@@ -40,7 +40,7 @@ class ArticleDAO extends DAO
         $sql = "select art_id, art_title, art_content, art_date as date from t_article where art_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
-
+        // Format the date in French
         $formatter = new IntlDateFormatter('fr_FR',IntlDateFormatter::FULL,
                 IntlDateFormatter::NONE,
                 'Europe/Paris',
