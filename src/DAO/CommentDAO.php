@@ -30,7 +30,7 @@ class CommentDAO extends DAO
 
         // art_id is not selected by the SQL query
         // The article won't be retrieved during domain objet construction
-        $sql = "select com_id, com_content, com_author, com_date from t_comment where art_id=? order by com_id";
+        $sql = "select com_id, com_content, com_author, com_date, parent_id from t_comment where art_id=? order by com_id";
         $result = $this->getDb()->fetchAll($sql, array($articleId));
 
     
@@ -53,8 +53,36 @@ class CommentDAO extends DAO
             $comment->setArticle($article);
             $comments[$comId] = $comment;
         }
-        return $comments;
+
+        $parentcomments = array_filter($comments, function($comment)
+        {
+            return $comment->getParentId() === NULL;
+        });
+
+        foreach ($parentcomments as $parentcomment) {
+            $this->setChildren($comments, $parentcomment);
+        }
+
+        return $parentcomments;
+
     }
+
+    public function setChildren($allcomments, $comment)
+    {
+        $children = array_filter($allcomments, function($childcomment) use ($comment)
+        {
+            return $childcomment->getParentId() === $comment->getId();
+        });
+
+        $comment->setChildren($children);
+
+        foreach ($children as $childcomment) {
+            $this->setChildren($allcomments, $childcomment);
+        }
+
+    }
+
+
 
     /**
      * Saves a comment into the database.
@@ -69,7 +97,8 @@ class CommentDAO extends DAO
             'art_id' => $comment->getArticle()->getId(),
             'com_author' => $comment->getAuthor(),
             'com_content' => $comment->getContent(),
-            'com_date' => $now
+            'com_date' => $now,
+            'parent_id' => $comment->getParentId()
             );
 
 
@@ -98,6 +127,7 @@ class CommentDAO extends DAO
         $comment->setContent($row['com_content']);
         $comment->setAuthor($row['com_author']);
         $comment->setDate($row['com_date']);
+        $comment->setParentId($row['parent_id']);
 
         if (array_key_exists('art_id', $row)) {
             // Find and set the associated article
