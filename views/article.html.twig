@@ -52,7 +52,7 @@
 
 
         <h3>Ajouter un commentaire</h3>
-
+            {{ form_start(commentForm) }}
             <div class="form-group">
                 {{ form_errors(commentForm.author) }}
                 {{ form_widget(commentForm.author, { 'attr':  {
