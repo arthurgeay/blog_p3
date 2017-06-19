@@ -15,7 +15,7 @@
 
                 {{ comment.content }}
                 <p>
-                    <a class="btn btn-default" href="#"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</a> - <a class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</a>
+                    <button class="btn btn-default" ><i class="fa fa-reply" aria-hidden="true"></i> Répondre</button> - <button class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</button>
                 </p>
 
             {% for childcomment in comment.children %}
@@ -25,7 +25,7 @@
 
                     {{ childcomment.content }}
                     <p>
-                        <a class="btn btn-default" href="#"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</a> - <a class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</a>
+                        <button class="btn btn-default"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</button> - <button class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</button>
                     </p>
 
 
@@ -35,7 +35,7 @@
                         <p>{{childcommentChild.date}}</p>
 
                         {{ childcommentChild.content }}
-                        <p><a class="btn btn-default" href="#"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</a> - <a class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</a>
+                        <p><button class="btn btn-default"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</button> - <button class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</button>
                         </p>
                     </div>
 
@@ -52,7 +52,7 @@
 
 
         <h3>Ajouter un commentaire</h3>
-        {{ form_start(commentForm) }}
+
             <div class="form-group">
                 {{ form_errors(commentForm.author) }}
                 {{ form_widget(commentForm.author, { 'attr':  {
@@ -81,5 +81,7 @@
                 {{ flashMessage }}
             </div>
             {% endfor %}
+
+            
     </p>
 {% endblock %}
