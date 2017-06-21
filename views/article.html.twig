@@ -9,15 +9,60 @@
         <h3>Commentaires</h3>
 
         {% for comment in comments %}
-            <div class="well">
+            <div id=""class="well">
                 <strong>{{ comment.author }}</strong><br />
                 <p>{{comment.date}}</p>
 
                 {{ comment.content }}
                 <p>
-                    <button class="btn btn-default" ><i class="fa fa-reply" aria-hidden="true"></i> Répondre</button> - <button class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</button>
+                    <button class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</button>
                 </p>
 
+                <h4>Répondre à {{ comment.author }}</h4>
+                {{ form_start(commentForm) }}
+
+                <div class="form-group">
+                    {{ form_errors(commentForm.parent_id) }}
+                    {{ form_widget(commentForm.parent_id, { 'attr':  {
+                        'name': 'parent_id',
+                        'value': '38'
+
+                    }}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_errors(commentForm.author) }}
+                    {{ form_widget(commentForm.author, { 'attr':  {
+                        'class': 'form-control',
+                        'placeholder': 'Pseudo'
+                    }}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_errors(commentForm.content) }}
+                    {{ form_widget(commentForm.content, { 'attr':  {
+                        'rows': '4',
+                        'class': 'form-control',
+                        'placeholder': 'Votre commentaire'
+                    }}) }}
+                </div>
+
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" aria-hidden="true">
+                        <i class="fa fa-reply" aria-hidden="true"></i>  Répondre
+                    </button>
+                </div>
+            
+                
+            
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">
+                    {{ flashMessage }}
+                </div>
+                {% endfor %}
+                
+                
             {% for childcomment in comment.children %}
                 <div class="well">
                     <strong>{{ childcomment.author }}</strong><br />
@@ -27,6 +72,8 @@
                     <p>
                         <button class="btn btn-default"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</button> - <button class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</button>
                     </p>
+
+
 
 
                 {% for childcommentChild in childcomment.children %}
@@ -42,10 +89,9 @@
                 {% endfor %}
                 </div>
             {% endfor %}
-    
-    
-    
+            
             </div>
+
             {% else %}
             Pas de commentaires.
         {% endfor %}
@@ -53,6 +99,7 @@
 
         <h3>Ajouter un commentaire</h3>
             {{ form_start(commentForm) }}
+
             <div class="form-group">
                 {{ form_errors(commentForm.author) }}
                 {{ form_widget(commentForm.author, { 'attr':  {
