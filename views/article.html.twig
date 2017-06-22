@@ -72,7 +72,7 @@
                         <button class="btn btn-default"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</button> - <button class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</button>
                     </p>
 
-
+                    
 
 
 
@@ -98,7 +98,37 @@
         {% endfor %}
 
 
-        
+        <h3>Ajouter un commentaire</h3>
+            {{ form_start(commentForm) }}
+
+            <div class="form-group">
+                {{ form_errors(commentForm.author) }}
+                {{ form_widget(commentForm.author, { 'attr':  {
+                    'class': 'form-control',
+                    'placeholder': 'Pseudo'
+                }}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_errors(commentForm.content) }}
+                {{ form_widget(commentForm.content, { 'attr':  {
+                    'rows': '4',
+                    'class': 'form-control',
+                    'placeholder': 'Votre commentaire'
+                }}) }}
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Ajouter" />
+            </div>
+            
+            {{ form_end(commentForm) }}
+            {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+            {% endfor %}
 
             
     </p>
