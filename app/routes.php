@@ -77,7 +77,7 @@ $app->match('/admin/article/add', function(Request $request) use ($app) {
     }
     return $app['twig']->render('article_form.html.twig', array(
         'articles' => $articles,
-        'title' => 'New article',
+        'title' => 'Nouvel article',
         'articleForm' => $articleForm->createView()));
 })->bind('admin_article_add');
 
@@ -94,7 +94,7 @@ $app->match('/admin/article/{id}/edit', function($id, Request $request) use ($ap
     }
     return $app['twig']->render('article_form.html.twig', array(
         'articles' => $articles, 
-        'title' => 'Edit article',
+        'title' => 'Modifier l\'article',
         'articleForm' => $articleForm->createView()));
 })->bind('admin_article_edit');
 
