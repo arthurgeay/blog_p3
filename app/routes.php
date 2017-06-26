@@ -36,9 +36,10 @@ $app->match('/article/{id}', function ($id, Request $request) use ($app) {
             $app['session']->getFlashBag()->add('success', 'Votre commentaire a bien été ajouté.');
         }
         $commentFormView = $commentForm->createView();
+        $childFormView = $commentForm->createView();
 
     $comments = $app['dao.comment']->findAllByArticle($id);
-    return $app['twig']->render('article.html.twig', array('articles' => $articles, 'article' => $article, 'comments' => $comments, 'commentForm' => $commentFormView));
+    return $app['twig']->render('article.html.twig', array('articles' => $articles, 'article' => $article, 'comments' => $comments, 'commentForm' => $commentFormView, 'childForm' => $childFormView));
 })->bind('article');
 
 
