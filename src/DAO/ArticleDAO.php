@@ -61,9 +61,13 @@ class ArticleDAO extends DAO
      * @param \MicroCMS\Domain\Article $article The article to save
      */
     public function save(Article $article) {
+
+        $now = $this->getDb()->fetchColumn("SELECT NOW()");  // Get the date of comment
+
         $articleData = array(
             'art_title' => $article->getTitle(),
             'art_content' => $article->getContent(),
+            'art_date' => $now
             );
 
         if ($article->getId()) {

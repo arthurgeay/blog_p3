@@ -4,7 +4,7 @@
     <p>
         <h2>{{ article.title }}</h2>
         <p>Publié le {{article.date}}</p>
-        <p>{{ article.content }}</p>
+        <p>{{ article.content | raw }}</p>
 
         <h3>Commentaires</h3>
 
@@ -18,83 +18,11 @@
                 <p>
                     <button class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</button>
                 </p>
-
-                <h4>Répondre à {{comment.author}}</h4>
-
-                {{ form_start(childForm) }}
-
-                    <div class="form-group">
-                        {{ form_errors(childForm.parent_id) }}
-                        {{ form_widget(childForm.parent_id, { 'attr':  {
-                            'name': 'parent_id',
-                            'value': (comment.id)
-                        }}) }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form_errors(childForm.author) }}
-                        {{ form_widget(childForm.author, { 'attr':  {
-                            'class': 'form-control',
-                            'placeholder': 'Pseudo'
-                        }}) }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form_errors(childForm.content) }}
-                        {{ form_widget(childForm.content, { 'attr':  {
-                            'rows': '4',
-                            'class': 'form-control',
-                            'placeholder': 'Votre commentaire'
-                        }}) }}
-                    </div>
-
-
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="Répondre" />
-                    </div>
-                    
-                    {{ form_end(childForm) }}
-
-                    {% for flashMessage in app.session.flashbag.get('success') %}
-                    <div class="alert alert-success">
-                        {{ flashMessage }}
-                    </div>
-                    {% endfor %}
-                
-                
-                
-                {% for childcomment in comment.children %}
-                <div class="well">
-                    <strong>{{ childcomment.author }}</strong><br />
-                    <p>{{childcomment.date}}</p>
-
-                    {{ childcomment.content }}
-                    <p>
-                        <button class="btn btn-default"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</button> - <button class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</button>
-                    </p>
-
-
-
-                {% for childcommentChild in childcomment.children %}
-                    <div class="well">
-                        <strong>{{ childcommentChild.author }}</strong><br />
-                        <p>{{childcommentChild.date}}</p>
-
-                        {{ childcommentChild.content }}
-                        <p><button class="btn btn-default"><i class="fa fa-reply" aria-hidden="true"></i> Répondre</button> - <button class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</button>
-                        </p>
-                    </div>
-
-                {% endfor %}
-
-                </div>
-                
-            {% endfor %}
-            
             </div>
 
             {% else %}
             Pas de commentaires.
+
         {% endfor %}
 
 

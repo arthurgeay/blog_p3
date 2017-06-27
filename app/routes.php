@@ -109,5 +109,14 @@ $app->get('/admin/article/{id}/delete', function($id, Request $request) use ($ap
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_article_delete');
 
+// Remove a comment
+$app->get('/admin/comment/{id}/delete', function($id, Request $request) use ($app) {
+    $app['dao.comment']->delete($id);
+    $app['session']->getFlashBag()->add('success', 'The comment was successfully removed.');
+    // Redirect to admin home page
+    return $app->redirect($app['url_generator']->generate('admin'));
+})->bind('admin_comment_delete');
+
+
 
 

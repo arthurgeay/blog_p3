@@ -54,36 +54,7 @@ class CommentDAO extends DAO
             $comments[$comId] = $comment;
         }
 
-        $parentcomments = array_filter($comments, function($comment)
-        {
-            return $comment->getParentId() === NULL;
-        });
-
-        foreach ($parentcomments as $parentcomment) {
-            $this->setChildren($comments, $parentcomment);
-        }
-
-        return $parentcomments;
-
-    }
-
-    /**
-     * Set children comment
-     * 
-     * @param $allcomments : array of all comments || $comment : A comment
-     */
-    public function setChildren($allcomments, $comment)
-    {
-        $children = array_filter($allcomments, function($childcomment) use ($comment)
-        {
-            return $childcomment->getParentId() === $comment->getId();
-        });
-
-        $comment->setChildren($children);
-
-        foreach ($children as $childcomment) {
-            $this->setChildren($allcomments, $childcomment);
-        }
+        return $comments;
 
     }
 
@@ -104,6 +75,35 @@ class CommentDAO extends DAO
             $entities[$id] = $this->buildDomainObject($row);
         }
         return $entities;
+    }
+
+     /**
+     * Returns a comment matching the supplied id.
+     *
+     * @param integer $id The comment id
+     *
+     * @return \blog_p3\Domain\Comment|throws an exception if no matching comment is found
+     */
+    public function find($id) {
+        $sql = "select * from t_comment where com_id=?";
+        $row = $this->getDb()->fetchAssoc($sql, array($id));
+
+        if ($row)
+            return $this->buildDomainObject($row);
+        else
+            throw new \Exception("No comment matching id " . $id);
+    }
+
+    // ...
+
+    /**
+     * Removes a comment from the database.
+     *
+     * @param @param integer $id The comment id
+     */
+    public function delete($id) {
+        // Delete the comment
+        $this->getDb()->delete('t_comment', array('com_id' => $id));
     }
 
 

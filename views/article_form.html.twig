@@ -38,9 +38,19 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-3">
-            <input type="submit" class="btn btn-primary" value="Enregistrer" />
+            <input formnovalidate="true" type="submit" class="btn btn-primary" value="Enregistrer" />
         </div>
     </div>
 {{ form_end(articleForm) }}
 </div>
+
+{% block javascript %}
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=0p653klhvyitgrag0ua5i4yjzvl32q93da56pjz8jxzlac4z'></script>
+    <script>
+  tinymce.init({
+    selector: 'textarea'
+  });
+  </script>
+{% endblock %}
+
 {% endblock %}
