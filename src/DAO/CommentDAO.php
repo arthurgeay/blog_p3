@@ -30,7 +30,7 @@ class CommentDAO extends DAO
 
         // art_id is not selected by the SQL query
         // The article won't be retrieved during domain objet construction
-        $sql = "select com_id, com_content, com_author, com_date, parent_id from t_comment where art_id=? order by com_id";
+        $sql = "select com_id, com_content, com_author, com_date from t_comment where art_id=? order by com_id";
         $result = $this->getDb()->fetchAll($sql, array($articleId));
 
     
@@ -65,7 +65,21 @@ class CommentDAO extends DAO
      * @return array A list of all comments.
      */
     public function findAll() {
-        $sql = "select * from t_comment order by com_id desc";
+        $sql = 'SELECT * FROM t_comment WHERE com_report IS NULL ORDER BY com_id DESC';
+        $result = $this->getDb()->fetchAll($sql);
+
+        // Convert query result to an array of domain objects
+        $entities = array();
+        foreach ($result as $row) {
+            $id = $row['com_id'];
+            $entities[$id] = $this->buildDomainObject($row);
+        }
+        return $entities;
+    }
+
+    public function findComReport()
+    {
+        $sql = 'SELECT * FROM t_comment WHERE com_report IS NOT NULL ORDER BY com_id DESC';
         $result = $this->getDb()->fetchAll($sql);
 
         // Convert query result to an array of domain objects
@@ -121,8 +135,7 @@ class CommentDAO extends DAO
             'art_id' => $comment->getArticle()->getId(),
             'com_author' => $comment->getAuthor(),
             'com_content' => $comment->getContent(),
-            'com_date' => $now,
-            'parent_id' => $comment->getParentId()
+            'com_date' => $now
             );
 
 
@@ -137,6 +150,24 @@ class CommentDAO extends DAO
             $id = $this->getDb()->lastInsertId();
             $comment->setId($id);
         }
+    }
+
+
+    /**
+     * Report a comment 
+     *
+     * @param \blog_p3\Domain\Comment $comment The comment to report
+     */
+    public function reportCom(Comment $comment)
+    {
+        $commentData = array(
+            'art_id' => $comment->getArticle()->getId(),
+            'com_author' => $comment->getAuthor(),
+            'com_content' => $comment->getContent(),
+            'com_date' => $comment->getDate(),
+            'com_report' => 1
+            );
+        $this->getDb()->update('t_comment', $commentData, array('com_id' => $comment->getId()));
     }
 
     /**
@@ -160,7 +191,6 @@ class CommentDAO extends DAO
         $comment->setContent($row['com_content']);
         $comment->setAuthor($row['com_author']);
         $comment->setDate($row['com_date']);
-        $comment->setParentId($row['parent_id']);
 
         if (array_key_exists('art_id', $row)) {
             // Find and set the associated article

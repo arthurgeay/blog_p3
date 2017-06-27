@@ -36,10 +36,9 @@ $app->match('/article/{id}', function ($id, Request $request) use ($app) {
             $app['session']->getFlashBag()->add('success', 'Votre commentaire a bien été ajouté.');
         }
         $commentFormView = $commentForm->createView();
-        $childFormView = $commentForm->createView();
 
     $comments = $app['dao.comment']->findAllByArticle($id);
-    return $app['twig']->render('article.html.twig', array('articles' => $articles, 'article' => $article, 'comments' => $comments, 'commentForm' => $commentFormView, 'childForm' => $childFormView));
+    return $app['twig']->render('article.html.twig', array('articles' => $articles, 'article' => $article, 'comments' => $comments, 'commentForm' => $commentFormView));
 })->bind('article');
 
 
@@ -57,10 +56,12 @@ $app->get('/login', function(Request $request) use ($app) {
 $app->get('/admin', function() use ($app) {
     $articles = $app['dao.article']->findAll();
     $comments = $app['dao.comment']->findAll();
+    $comsReports = $app['dao.comment']->findComReport();
 
     return $app['twig']->render('admin.html.twig', array(
         'articles' => $articles,
         'comments' => $comments,
+        'comsReports' => $comsReports
         ));
 })->bind('admin');
 
@@ -112,10 +113,23 @@ $app->get('/admin/article/{id}/delete', function($id, Request $request) use ($ap
 // Remove a comment
 $app->get('/admin/comment/{id}/delete', function($id, Request $request) use ($app) {
     $app['dao.comment']->delete($id);
-    $app['session']->getFlashBag()->add('success', 'The comment was successfully removed.');
+    $app['session']->getFlashBag()->add('success', 'Le commentaire a bien été supprimé.');
     // Redirect to admin home page
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_comment_delete');
+
+//Report a comment
+$app->get('/report/{id}', function($id, Request $request) use ($app)
+{
+    $comId = $app['dao.comment']->find($id);
+    $report = $app['dao.comment']->reportCom($comId);
+
+    $app['session']->getFlashBag()->add('success-report', 'Le commentaire a bien été signalé.');
+
+    return $app->redirect($app['url_generator']->generate('admin'));
+    
+
+})->bind('report_comment');
 
 
 

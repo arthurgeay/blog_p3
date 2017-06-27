@@ -33,23 +33,16 @@ class Comment
     private $article;
 
     /**
-     * Id of an comment parent
-     * @var integer
-     */
-    private $parentId;
-
-    /**
      * Date of comment
      * @var string
      */
     private $date;
 
     /**
-     * Children comment
-     * 
-     * @var int
+     * Moderation of comment
+     * @var string
      */
-    private $children;
+    private $report;
 
     public function getId() {
         return $this->id;
@@ -87,17 +80,6 @@ class Comment
         return $this;
     }
 
-    public function getParentId()
-    {
-        return $this->parentId;
-    }
-
-    public function setParentId($parentId)
-    {
-        $this->parentId = $parentId;
-        return $this;
-    }
-
     public function getDate()
     {
         return $this->date;
@@ -109,14 +91,14 @@ class Comment
         return $this;
     }
 
-    public function getChildren()
+    public function getReport()
     {
-        return $this->children;
+        return $this->report;
     }
 
-    public function setChildren($children)
+    public function setReport($report)
     {
-        $this->children = $children;
+        $this->report = $report;
         return $this;
     }
 }

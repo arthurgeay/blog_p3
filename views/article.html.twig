@@ -16,7 +16,7 @@
                 {{ comment.content }}
 
                 <p>
-                    <button class="btn btn-danger" href=""><i class="fa fa-ban" aria-hidden="true"></i> Signaler</button>
+                    <a class="btn btn-danger" href="{{ path('report_comment', { 'id': comment.id }) }}"><i class="fa fa-ban" aria-hidden="true"></i> Signaler</a>
                 </p>
             </div>
 
@@ -56,6 +56,12 @@
             <div class="alert alert-success">
                 {{ flashMessage }}
             </div>
+            {% endfor %}
+
+            {% for reportMessage in app.session.flashbag.get('success-report') %}
+                <div class="alert alert-info">
+                    {{ reportMessage }}
+                </div>
             {% endfor %}
 
             
