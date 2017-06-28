@@ -9,6 +9,13 @@
         <h3>Commentaires</h3>
 
         {% for comment in comments %}
+
+            {% for reportMessage in app.session.flashbag.get('success-report') %}
+                <div class="alert alert-info">
+                    {{ reportMessage }}
+                </div>
+            {% endfor %}
+
             <div id=""class="well">
                 <strong>{{ comment.author }}</strong><br />
                 <p>{{comment.date}}</p>
@@ -16,7 +23,7 @@
                 {{ comment.content }}
 
                 <p>
-                    <a class="btn btn-danger" href="{{ path('report_comment', { 'id': comment.id }) }}"><i class="fa fa-ban" aria-hidden="true"></i> Signaler</a>
+                    <a class="btn btn-danger" href="{{ path('report_comment', {'id': comment.id }) }}"><i class="fa fa-ban" aria-hidden="true"></i> Signaler</a>
                 </p>
             </div>
 
@@ -56,12 +63,6 @@
             <div class="alert alert-success">
                 {{ flashMessage }}
             </div>
-            {% endfor %}
-
-            {% for reportMessage in app.session.flashbag.get('success-report') %}
-                <div class="alert alert-info">
-                    {{ reportMessage }}
-                </div>
             {% endfor %}
 
             

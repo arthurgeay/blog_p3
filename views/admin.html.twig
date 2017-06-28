@@ -83,7 +83,7 @@
                 <tr>
                     <td><a class="articleTitle" href="{{ path('article', { 'id': comReport.article.id }) }}">{{ comReport.article.title }}</a></td>
                     <td>{{ comReport.author }}</td>
-                    <td>{{ comReport.content | truncate(100) }}</td>
+                    <td>{{ comReport.content | truncate(60) }}</td>
                     <td>
                         <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#commentDialog{{ comReport.id }}"><span class="glyphicon glyphicon-remove"></span>
                         </button>
@@ -110,7 +110,7 @@
             </table>
         </div>
         {% else %}
-        <div class="alert alert-warning">Aucun Commentaire.</div>
+        <div class="alert alert-warning">Aucun commentaire signalé.</div>
         {% endif %}
 
 

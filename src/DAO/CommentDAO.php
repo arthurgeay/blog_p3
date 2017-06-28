@@ -165,8 +165,9 @@ class CommentDAO extends DAO
             'com_author' => $comment->getAuthor(),
             'com_content' => $comment->getContent(),
             'com_date' => $comment->getDate(),
-            'com_report' => 1
+            'com_report' => $comment->getReport() + 1
             );
+
         $this->getDb()->update('t_comment', $commentData, array('com_id' => $comment->getId()));
     }
 

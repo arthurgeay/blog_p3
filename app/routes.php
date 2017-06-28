@@ -52,6 +52,9 @@ $app->get('/login', function(Request $request) use ($app) {
     ));
 })->bind('login');
 
+
+
+
 // Admin Home page
 $app->get('/admin', function() use ($app) {
     $articles = $app['dao.article']->findAll();
@@ -64,6 +67,9 @@ $app->get('/admin', function() use ($app) {
         'comsReports' => $comsReports
         ));
 })->bind('admin');
+
+
+
 
 // Add a new article
 $app->match('/admin/article/add', function(Request $request) use ($app) {
@@ -82,6 +88,9 @@ $app->match('/admin/article/add', function(Request $request) use ($app) {
         'articleForm' => $articleForm->createView()));
 })->bind('admin_article_add');
 
+
+
+
 // Edit an existing article
 $app->match('/admin/article/{id}/edit', function($id, Request $request) use ($app) {
     $articles = $app['dao.article']->findAll();
@@ -99,6 +108,8 @@ $app->match('/admin/article/{id}/edit', function($id, Request $request) use ($ap
         'articleForm' => $articleForm->createView()));
 })->bind('admin_article_edit');
 
+
+
 // Remove an article
 $app->get('/admin/article/{id}/delete', function($id, Request $request) use ($app) {
     // Delete all associated comments
@@ -110,6 +121,8 @@ $app->get('/admin/article/{id}/delete', function($id, Request $request) use ($ap
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_article_delete');
 
+
+
 // Remove a comment
 $app->get('/admin/comment/{id}/delete', function($id, Request $request) use ($app) {
     $app['dao.comment']->delete($id);
@@ -118,16 +131,23 @@ $app->get('/admin/comment/{id}/delete', function($id, Request $request) use ($ap
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_comment_delete');
 
+
+
+
 //Report a comment
-$app->get('/report/{id}', function($id, Request $request) use ($app)
-{
+$app->get('article/comment/{id}/report', function($id) use ($app)
+{  
     $comId = $app['dao.comment']->find($id);
+
+    //$articleId = $app['dao.article']->find($id);
+    
+    $articleId = 3;
+
     $report = $app['dao.comment']->reportCom($comId);
 
     $app['session']->getFlashBag()->add('success-report', 'Le commentaire a bien été signalé.');
 
-    return $app->redirect($app['url_generator']->generate('admin'));
-    
+    return $app->redirect($app['url_generator']->generate('article', array('id' => $articleId)));
 
 })->bind('report_comment');
 
