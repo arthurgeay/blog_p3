@@ -137,11 +137,10 @@ $app->get('/admin/comment/{id}/delete', function($id, Request $request) use ($ap
 //Report a comment
 $app->get('article/comment/{id}/report', function($id) use ($app)
 {  
-    $comId = $app['dao.comment']->find($id);
+    $comId = $app['dao.comment']->find($id);    
 
-    //$articleId = $app['dao.article']->find($id);
-    
-    $articleId = 3;
+    $articleId = $app['dao.article']->find($id);
+    //$articleId = 3;
 
     $report = $app['dao.comment']->reportCom($comId);
 
