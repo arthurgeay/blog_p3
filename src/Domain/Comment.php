@@ -44,6 +44,12 @@ class Comment
      */
     private $report;
 
+    /**
+     * Comment delete by admin
+     * @var  int
+     */
+    private $deletedCom;
+
     public function getId() {
         return $this->id;
     }
@@ -101,4 +107,16 @@ class Comment
         $this->report = $report;
         return $this;
     }
+
+    public function getDeletedCom()
+    {
+        return $this->deletedCom;
+    }
+
+    public function setDeletedCom($deletedCom)
+    {
+        $this->deletedCom = $deletedCom;
+        return $this;
+    }
+
 }

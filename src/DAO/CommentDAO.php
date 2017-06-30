@@ -30,7 +30,7 @@ class CommentDAO extends DAO
 
         // art_id is not selected by the SQL query
         // The article won't be retrieved during domain objet construction
-        $sql = "select com_id, com_content, com_author, com_date from t_comment where art_id=? order by com_id";
+        $sql = "select com_id, com_content, com_author, com_date, com_delete from t_comment where art_id=? order by com_id";
         $result = $this->getDb()->fetchAll($sql, array($articleId));
 
     
@@ -79,7 +79,7 @@ class CommentDAO extends DAO
 
     public function findComReport()
     {
-        $sql = 'SELECT * FROM t_comment WHERE com_report IS NOT NULL ORDER BY com_id DESC';
+        $sql = 'SELECT * FROM t_comment WHERE com_report = 1 ORDER BY com_id DESC';
         $result = $this->getDb()->fetchAll($sql);
 
         // Convert query result to an array of domain objects
@@ -116,8 +116,12 @@ class CommentDAO extends DAO
      * @param @param integer $id The comment id
      */
     public function delete($id) {
+        $commentData = array('com_content' => 'Le commentaire a été supprimé par l\'administrateur',
+            'com_report' => 2,
+            'com_delete' => 1);
+
         // Delete the comment
-        $this->getDb()->delete('t_comment', array('com_id' => $id));
+        $this->getDb()->update('t_comment', $commentData, array('com_id' => $id));
     }
 
 
@@ -192,6 +196,7 @@ class CommentDAO extends DAO
         $comment->setContent($row['com_content']);
         $comment->setAuthor($row['com_author']);
         $comment->setDate($row['com_date']);
+        $comment->setDeletedCom($row['com_delete']);
 
         if (array_key_exists('art_id', $row)) {
             // Find and set the associated article

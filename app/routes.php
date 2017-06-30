@@ -133,22 +133,22 @@ $app->get('/admin/comment/{id}/delete', function($id, Request $request) use ($ap
 
 
 
-
 //Report a comment
-$app->get('article/comment/{id}/report', function($id) use ($app)
+$app->get('article/comment/{id}/report', function($id, Request $request) use ($app)
 {  
-    $comId = $app['dao.comment']->find($id);    
-
-    $articleId = $app['dao.article']->find($id);
-    //$articleId = 3;
+    $comId = $app['dao.comment']->find($id);
 
     $report = $app['dao.comment']->reportCom($comId);
 
     $app['session']->getFlashBag()->add('success-report', 'Le commentaire a bien été signalé.');
 
+    $articleId = $app['dao.article']->find($id);
+
     return $app->redirect($app['url_generator']->generate('article', array('id' => $articleId)));
 
 })->bind('report_comment');
+
+
 
 
 

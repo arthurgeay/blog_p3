@@ -16,16 +16,26 @@
                 </div>
             {% endfor %}
 
+            {% if comment.deletedCom %}
+
+            <div id=""class="well">
+                <em>{{ comment.content }}</em>
+            </div>
+
+            {% else %}
+
             <div id=""class="well">
                 <strong>{{ comment.author }}</strong><br />
                 <p>{{comment.date}}</p>
 
                 {{ comment.content }}
-
+                <p class="danger">{{comment.deletedCom}}</p>
                 <p>
                     <a class="btn btn-danger" href="{{ path('report_comment', { 'id': comment.id }) }}"><i class="fa fa-ban" aria-hidden="true"></i> Signaler</a>
                 </p>
             </div>
+
+            {% endif %}
 
             {% else %}
             Pas de commentaires.
