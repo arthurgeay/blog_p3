@@ -9,18 +9,24 @@ use blog_p3\Form\Type\ArticleType;
 // Home page
 $app->get('/', function () use ($app) {
 	$articles = $app['dao.article']->findAll();
-    return $app['twig']->render('index.html.twig', array('articles' => $articles));
+    //For the footer
+    $latestArticles = $app['dao.article']->findLatestArticles();
+
+    return $app['twig']->render('index.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles));
 })->bind('home');
 
 // Blog page
 $app->get('/blog', function () use ($app) {
     $articles = $app['dao.article']->findAll();
-    return $app['twig']->render('blog.html.twig', array('articles' => $articles));
+    //For the footer
+    $latestArticles = $app['dao.article']->findLatestArticles();
+    return $app['twig']->render('blog.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles));
 })->bind('blog');
 
 // Article details with comments
 $app->match('/article/{id}', function ($id, Request $request) use ($app) {
-	$articles = $app['dao.article']->findAll();
+	//For the footer
+    $latestArticles = $app['dao.article']->findLatestArticles();
 
     $article = $app['dao.article']->find($id);
 
@@ -38,14 +44,14 @@ $app->match('/article/{id}', function ($id, Request $request) use ($app) {
         $commentFormView = $commentForm->createView();
 
     $comments = $app['dao.comment']->findAllByArticle($id);
-    return $app['twig']->render('article.html.twig', array('articles' => $articles, 'article' => $article, 'comments' => $comments, 'commentForm' => $commentFormView));
+    return $app['twig']->render('article.html.twig', array('article' => $article, 'comments' => $comments, 'commentForm' => $commentFormView, 'latestArticles' => $latestArticles));
 })->bind('article');
 
 
 // Login form
 $app->get('/login', function(Request $request) use ($app) {
     $articles = $app['dao.article']->findAll();
-    return $app['twig']->render('login.html.twig', array(
+    return $app['twig']->render('/admin/login.html.twig', array(
         'error'         => $app['security.last_error']($request),
         'last_username' => $app['session']->get('_security.last_username'),
         'articles' => $articles
@@ -61,7 +67,7 @@ $app->get('/admin', function() use ($app) {
     $comments = $app['dao.comment']->findAll();
     $comsReports = $app['dao.comment']->findComReport();
 
-    return $app['twig']->render('admin.html.twig', array(
+    return $app['twig']->render('/admin/admin.html.twig', array(
         'articles' => $articles,
         'comments' => $comments,
         'comsReports' => $comsReports
@@ -82,7 +88,7 @@ $app->match('/admin/article/add', function(Request $request) use ($app) {
         $app['dao.article']->save($article);
         $app['session']->getFlashBag()->add('success', 'L\'article a bien été créé.');
     }
-    return $app['twig']->render('article_form.html.twig', array(
+    return $app['twig']->render('/admin/article_form.html.twig', array(
         'articles' => $articles,
         'title' => 'Nouvel article',
         'articleForm' => $articleForm->createView()));
@@ -102,7 +108,7 @@ $app->match('/admin/article/{id}/edit', function($id, Request $request) use ($ap
         $app['dao.article']->save($article);
         $app['session']->getFlashBag()->add('success', 'L\'article a bien été mis à jour.');
     }
-    return $app['twig']->render('article_form.html.twig', array(
+    return $app['twig']->render('/admin/article_form.html.twig', array(
         'articles' => $articles, 
         'title' => 'Modifier l\'article',
         'articleForm' => $articleForm->createView()));

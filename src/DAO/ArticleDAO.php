@@ -29,6 +29,51 @@ class ArticleDAO extends DAO
         return $articles;
     }
 
+    /** Return a list of 4 latest articles
+    *
+    * @return array A list of 4 latest articles
+    */
+    public function findLatestArticles()
+    {
+        //Calcul for display the 4 latest articles
+        $nbOfArticles = $this->count();
+        $articlesToDisplay = $nbOfArticles - 4;
+
+        $sql = "SELECT art_id, art_title, art_content, DATE_FORMAT(art_date, '%d/%m/%Y') as date FROM t_article ORDER BY art_id LIMIT $articlesToDisplay, $nbOfArticles ";
+        $result = $this->getDb()->fetchAll($sql);
+
+        $articles = array();
+        foreach($result as $row)
+        {
+            $articlesId = $row['art_id'];
+            $articles[$articlesId] = $this->buildDomainObject($row);
+        }
+
+        return $articles;
+    }
+
+    /**
+     * 
+     * Return number of articles
+     * 
+     * @return string 
+     */
+    public function count()
+    {
+        $sql = "SELECT COUNT(*) as numberOfArticle FROM t_article";
+        $result = $this->getDb()->fetchAll($sql);
+
+        $numberOfArticles = array();
+        foreach($result as $row)
+        {
+            $numberOfArticles[] = $row['numberOfArticle'];
+        }
+
+        $nbOfArticleString = implode($numberOfArticles);
+
+        return $nbOfArticleString;
+    }
+
     /**
      * Returns an article matching the supplied id whith date of publication
      *
