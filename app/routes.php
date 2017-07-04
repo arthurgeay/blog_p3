@@ -9,18 +9,26 @@ use blog_p3\Form\Type\ArticleType;
 // Home page
 $app->get('/', function () use ($app) {
 	$articles = $app['dao.article']->findAll();
-    //For the footer
+
+    $counter = $app['dao.article']->counterSlide();
+
+    $img = $app['dao.article']->imgCarousel();
+
+    //For the footer and carousel
     $latestArticles = $app['dao.article']->findLatestArticles();
 
-    return $app['twig']->render('index.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles));
+    return $app['twig']->render('index.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles, 'counter' => $counter, 'img' => $img));
 })->bind('home');
 
 // Blog page
 $app->get('/blog', function () use ($app) {
     $articles = $app['dao.article']->findAll();
+
+    $nbOfComments = $app['dao.comment']->count();
+
     //For the footer
     $latestArticles = $app['dao.article']->findLatestArticles();
-    return $app['twig']->render('blog.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles));
+    return $app['twig']->render('blog.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles, 'nbOfComments' => $nbOfComments));
 })->bind('blog');
 
 // Article details with comments
@@ -142,15 +150,14 @@ $app->get('/admin/comment/{id}/delete', function($id, Request $request) use ($ap
 //Report a comment
 $app->get('article/comment/{id}/report', function($id, Request $request) use ($app)
 {  
-    $comId = $app['dao.comment']->find($id);
-
-    $report = $app['dao.comment']->reportCom($comId);
+    $report = $app['dao.comment']->reportCom($id);
+    $comment = $app['dao.comment']->find($id);
 
     $app['session']->getFlashBag()->add('success-report', 'Le commentaire a bien été signalé.');
 
-    $articleId = $app['dao.article']->find($id);
+    
 
-    return $app->redirect($app['url_generator']->generate('article', array('id' => $articleId)));
+    return $app->redirect($app['url_generator']->generate('article', array('id' => $comment->getArticle()->getId())));
 
 })->bind('report_comment');
 

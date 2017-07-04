@@ -75,6 +75,31 @@ class ArticleDAO extends DAO
     }
 
     /**
+     * Counter for carousel
+     * 
+     * @return  int
+     */
+    public function counterSlide()
+    {
+
+    $i = 0;
+
+        if ($i == 0)
+        {
+            $i++;
+        }
+
+        return $i;
+    }
+
+    public function imgCarousel()
+    {
+        $img = array("img1" => "img/alaska.jpeg", "img2" => "img/alaska-glacier-ice-mountains.jpg");
+
+        return $img;
+    }
+
+    /**
      * Returns an article matching the supplied id whith date of publication
      *
      * @param integer $id

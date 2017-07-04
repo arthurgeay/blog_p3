@@ -58,6 +58,28 @@ class CommentDAO extends DAO
 
     }
 
+    /**
+     * 
+     * Return number of comments
+     * 
+     * @return string 
+     */
+    public function count()
+    {
+        $sql = "SELECT COUNT(*) as numberOfComment FROM t_comment";
+        $result = $this->getDb()->fetchAll($sql);
+
+        $numberOfComment = array();
+        foreach($result as $row)
+        {
+            $numberOfComment[] = $row['numberOfComment'];
+        }
+
+        $nbOfCommentString = implode($numberOfComment);
+
+        return $nbOfCommentString;
+    }
+
 
     /**
      * Returns a list of all comments, sorted by date (most recent first).
@@ -162,17 +184,15 @@ class CommentDAO extends DAO
      *
      * @param \blog_p3\Domain\Comment $comment The comment to report
      */
-    public function reportCom(Comment $comment)
+    public function reportCom($comId)
     {
+        $comment = $this->find($comId);
+
         $commentData = array(
-            'art_id' => $comment->getArticle()->getId(),
-            'com_author' => $comment->getAuthor(),
-            'com_content' => $comment->getContent(),
-            'com_date' => $comment->getDate(),
             'com_report' => $comment->getReport() + 1
             );
 
-        $this->getDb()->update('t_comment', $commentData, array('com_id' => $comment->getId()));
+        $this->getDb()->update('t_comment', $commentData, array('com_id' => $comId));
     }
 
     /**

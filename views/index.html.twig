@@ -12,18 +12,25 @@
         <li data-target="#carousel" data-slide-to="0" class="active"></li>
         <li data-target="#carousel" data-slide-to="1"></li>
         <li data-target="#carousel" data-slide-to="2"></li>
+        <li data-target="#carousel" data-slide-to="3"></li>
     </ol>
 
     <div class="carousel-inner height-img">
-        
-        <div class="item active"> <img alt="" src="{{ asset('/img/alaska.jpeg')}}">
-            <a href=""><h1 class="carousel-caption">Lorem ipsum in french</h1></a></div>
-            
-            
-            <div class="item"> <img alt="" src="{{ asset('/img/alaska-glacier-ice-mountains.jpg')}}"><a href=""><h1 class="carousel-caption">Lorem ipsum</h1></a></div>
-            
-            
-            <div class="item"> <img alt="" src="{{ asset('/img/wood-landscape-mountains-nature.jpg')}}"><a href="article/1"><h1 class="carousel-caption">First Article</h1></a></div>
+        {% for slide in latestArticles %}
+            <div class="item {% if counter == 1 %} {% set text = 'active' %} {{text}} {% endif %} ">
+                        
+                                <img alt"Alaska" src="{% if counter == 1 %} {{ asset('img/alaska.jpeg') }} 
+                                {% elseif counter == 2 %} {{ asset('img/alaska-glacier-ice-mountains.jpg') }}
+                                {% elseif counter == 3 %} {{ asset('img/wood-landscape-mountains-nature.jpg') }}
+                                {% else %} {{ asset('img/alaska4.jpeg')}}
+                                {% endif %}">
+                        
+                <a href="{{ path('article', { 'id': slide.id }) }}">
+                    <h1 class="carousel-caption">{{ slide.title }}</h1>
+                </a>
+            </div>
+            {% set counter = counter + 1 %}
+        {% endfor %}
 
         </div>
         

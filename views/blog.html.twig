@@ -7,6 +7,9 @@
 {% for article in articles %}
     <article>
         <h2><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></h2>
+        <p>{% for nbOfComment in nbOfComments %}
+        		{{nbOfComment}}
+        	{% endfor %}</p>
         <p>Publié le {{article.date}}</p>
 
         <p>{{ article.content | raw }}</p>
