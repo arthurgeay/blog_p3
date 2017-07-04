@@ -92,13 +92,6 @@ class ArticleDAO extends DAO
         return $i;
     }
 
-    public function imgCarousel()
-    {
-        $img = array("img1" => "img/alaska.jpeg", "img2" => "img/alaska-glacier-ice-mountains.jpg");
-
-        return $img;
-    }
-
     /**
      * Returns an article matching the supplied id whith date of publication
      *

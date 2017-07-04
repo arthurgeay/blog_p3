@@ -15,6 +15,7 @@
         <ul class="nav nav-tabs nav-justified">
             <li class="active"><a href="#articles" data-toggle="tab">Articles</a></li>
             <li><a href="#comments" data-toggle="tab">Commentaires</a></li>
+            <li><a href="#newsletter" data-toggle="tab">Newsletter</a></li>
         </ul>
     </div>
 </div>
@@ -159,6 +160,12 @@
         <div class="alert alert-warning">Aucun Commentaire.</div>
         {% endif %}
         
+    </div>
+
+    <div class="tab-pane fade adminTable" id="newsletter">
+        <h3>Newsletter</h3>
+        <p>Il y a {{ subscribers }} inscrits à la newsletter</p>
+        <a href="{{ path('admin_newsletter_add') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Envoyer une newsletter </button></a>
     </div>
     
 </div>

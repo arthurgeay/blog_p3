@@ -42,6 +42,9 @@ $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());
 
+    
+$app->register(new Silex\Provider\SwiftmailerServiceProvider());
+
 // Register services
 $app['dao.article'] = function ($app) {
     return new blog_p3\DAO\ArticleDAO($app['db']);
@@ -55,4 +58,13 @@ $app['dao.comment'] = function ($app)
 $app['dao.user'] = function ($app)
 {
 	return new blog_p3\DAO\UserDAO($app['db']);
+};
+$app['dao.newsletter'] = function ($app)
+{
+    return new blog_p3\DAO\NewsletterDAO($app['db']);
+};
+
+$app['dao.mail'] = function ($app)
+{
+    return new blog_p3\DAO\MailDAO($app['db']);
 };

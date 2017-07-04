@@ -1,35 +1,67 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use blog_p3\Domain\Comment;
 use blog_p3\Domain\Article;
+use blog_p3\Domain\Newsletter;
+use blog_p3\Domain\Mail;
 use blog_p3\Form\Type\CommentType;
 use blog_p3\Form\Type\ArticleType;
+use blog_p3\Form\Type\NewsletterType;
+use blog_p3\Form\Type\MailType;
 
 // Home page
-$app->get('/', function () use ($app) {
+$app->match('/', function (Request $request) use ($app) {
 	$articles = $app['dao.article']->findAll();
 
     $counter = $app['dao.article']->counterSlide();
 
-    $img = $app['dao.article']->imgCarousel();
-
     //For the footer and carousel
     $latestArticles = $app['dao.article']->findLatestArticles();
 
-    return $app['twig']->render('index.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles, 'counter' => $counter, 'img' => $img));
+    //Newsletter form 
+    $newsletter = new Newsletter();
+    $newsletterForm = $app['form.factory']->create(NewsletterType::class, $newsletter);
+    $newsletterForm->handleRequest($request);
+
+
+    if ($newsletterForm->isSubmitted() && $newsletterForm->isValid()) {
+            $app['dao.newsletter']->save($newsletter);
+            $app['session']->getFlashBag()->add('success', 'Vous êtes bien inscrit à la newsletter.');
+        }
+
+    $newsletterFormView = $newsletterForm->createView();
+
+    return $app['twig']->render('index.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles, 'counter' => $counter, 'newsletterForm' => $newsletterFormView));
 })->bind('home');
 
 // Blog page
-$app->get('/blog', function () use ($app) {
+$app->match('/blog', function (Request $request) use ($app) {
     $articles = $app['dao.article']->findAll();
 
     $nbOfComments = $app['dao.comment']->count();
 
     //For the footer
     $latestArticles = $app['dao.article']->findLatestArticles();
-    return $app['twig']->render('blog.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles, 'nbOfComments' => $nbOfComments));
+
+    //Newsletter form 
+    $newsletter = new Newsletter();
+    $newsletterForm = $app['form.factory']->create(NewsletterType::class, $newsletter);
+    $newsletterForm->handleRequest($request);
+
+
+    if ($newsletterForm->isSubmitted() && $newsletterForm->isValid()) {
+            $app['dao.newsletter']->save($newsletter);
+            $app['session']->getFlashBag()->add('success', 'Vous êtes bien inscrit à la newsletter.');
+        }
+
+    $newsletterFormView = $newsletterForm->createView();
+
+    return $app['twig']->render('blog.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles, 'nbOfComments' => $nbOfComments, 'newsletterForm' => $newsletterFormView));
 })->bind('blog');
+
+
 
 // Article details with comments
 $app->match('/article/{id}', function ($id, Request $request) use ($app) {
@@ -52,7 +84,22 @@ $app->match('/article/{id}', function ($id, Request $request) use ($app) {
         $commentFormView = $commentForm->createView();
 
     $comments = $app['dao.comment']->findAllByArticle($id);
-    return $app['twig']->render('article.html.twig', array('article' => $article, 'comments' => $comments, 'commentForm' => $commentFormView, 'latestArticles' => $latestArticles));
+
+
+    //Newsletter form 
+    $newsletter = new Newsletter();
+    $newsletterForm = $app['form.factory']->create(NewsletterType::class, $newsletter);
+    $newsletterForm->handleRequest($request);
+
+
+    if ($newsletterForm->isSubmitted() && $newsletterForm->isValid()) {
+            $app['dao.newsletter']->save($newsletter);
+            $app['session']->getFlashBag()->add('success', 'Vous êtes bien inscrit à la newsletter.');
+        }
+
+    $newsletterFormView = $newsletterForm->createView();
+
+    return $app['twig']->render('article.html.twig', array('article' => $article, 'comments' => $comments, 'commentForm' => $commentFormView, 'latestArticles' => $latestArticles, 'newsletterForm' => $newsletterFormView));
 })->bind('article');
 
 
@@ -75,10 +122,13 @@ $app->get('/admin', function() use ($app) {
     $comments = $app['dao.comment']->findAll();
     $comsReports = $app['dao.comment']->findComReport();
 
+    $subscribers = $app['dao.newsletter']->count();
+
     return $app['twig']->render('/admin/admin.html.twig', array(
         'articles' => $articles,
         'comments' => $comments,
-        'comsReports' => $comsReports
+        'comsReports' => $comsReports,
+        'subscribers' => $subscribers
         ));
 })->bind('admin');
 
@@ -160,6 +210,54 @@ $app->get('article/comment/{id}/report', function($id, Request $request) use ($a
     return $app->redirect($app['url_generator']->generate('article', array('id' => $comment->getArticle()->getId())));
 
 })->bind('report_comment');
+
+//Send a newsletter
+$app->match('/admin/newsletter', function(Request $request) use ($app)
+{
+    //Mail form 
+    $mail = new Mail();
+    $mailForm = $app['form.factory']->create(MailType::class, $mail);
+    $mailForm->handleRequest($request);
+
+
+    if ($mailForm->isSubmitted() && $mailForm->isValid()) {
+            $app['dao.mail']->save($mail);
+            
+            $mailContent = $app['dao.mail']->find();
+
+            $subscribers = $app['dao.newsletter']->allMail();
+
+            // Create the Transport
+            $transport = (new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
+            ->setUsername('arthurgeay.contact@gmail.com')
+            ->setPassword('lwhvjswfjrvutmnd');
+
+            // Create the Mailer 
+            $mailer = new Swift_Mailer($transport);
+
+            $body = $mailContent->getContent();
+
+            $message = \Swift_Message::newInstance()
+                ->setSubject($mailContent->getTitle())
+                ->setFrom(array('arthurgeay.contact@gmail.com' => 'Jean Forteroche'))
+                ->setTo($subscribers)
+                ->setBody($body, 'text/html');
+
+            // Send the message
+            $result = $mailer->send($message);
+
+            if($result)
+            {
+             $app['session']->getFlashBag()->add('success', 'La newsletter a bien été envoyé');   
+            }
+            
+        }
+
+    $mailFormView = $mailForm->createView();
+
+    return $app['twig']->render('/admin/mail_form.html.twig', array('mailForm' => $mailFormView, 'title' => 'Newsletter'));
+
+})->bind('admin_newsletter_add');
 
 
 

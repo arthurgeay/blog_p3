@@ -10,7 +10,8 @@
         "symfony/translation": "~2.8|3.0.*",
         "symfony/config": "~2.8|3.0.*",
         "twig/extensions": "~1.4",
-        "symfony/validator": "~2.8|3.0.*"
+        "symfony/validator": "~2.8|3.0.*",
+        "swiftmailer/swiftmailer": "5.*"
     },
     "autoload": {
         "psr-4": {"blog_p3\\": "src"}
