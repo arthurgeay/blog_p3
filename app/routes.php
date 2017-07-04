@@ -240,7 +240,7 @@ $app->match('/admin/newsletter', function(Request $request) use ($app)
             $message = \Swift_Message::newInstance()
                 ->setSubject($mailContent->getTitle())
                 ->setFrom(array('arthurgeay.contact@gmail.com' => 'Jean Forteroche'))
-                ->setTo($subscribers)
+                ->setBcc($subscribers)
                 ->setBody($body, 'text/html');
 
             // Send the message
