@@ -174,7 +174,8 @@ class AdminController
 
                 if($result)
                 {
-                 $app['session']->getFlashBag()->add('success', 'La newsletter a bien été envoyé');   
+                    $app['dao.mail']->delete($mailContent->getId());
+                    $app['session']->getFlashBag()->add('success', 'La newsletter a bien été envoyé');   
                 }
             }
 

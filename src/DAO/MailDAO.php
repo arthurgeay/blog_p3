@@ -43,6 +43,11 @@ class MailDAO extends DAO
 		} 
 	}
 
+	public function delete($id)
+	{
+		$this->getDb()->delete('t_mail', array('mail_id' => $id));
+	}
+
 	/**
      * Creates an Newsletter object based on a DB row.
      *
