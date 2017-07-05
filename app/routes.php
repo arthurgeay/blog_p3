@@ -6,10 +6,12 @@ use blog_p3\Domain\Comment;
 use blog_p3\Domain\Article;
 use blog_p3\Domain\Newsletter;
 use blog_p3\Domain\Mail;
+use blog_p3\Domain\Contact;
 use blog_p3\Form\Type\CommentType;
 use blog_p3\Form\Type\ArticleType;
 use blog_p3\Form\Type\NewsletterType;
 use blog_p3\Form\Type\MailType;
+use blog_p3\Form\Type\ContactType;
 
 // Home page
 $app->match('/', function (Request $request) use ($app) {
@@ -40,8 +42,6 @@ $app->match('/', function (Request $request) use ($app) {
 $app->match('/blog', function (Request $request) use ($app) {
     $articles = $app['dao.article']->findAll();
 
-    $nbOfComments = $app['dao.comment']->count();
-
     //For the footer
     $latestArticles = $app['dao.article']->findLatestArticles();
 
@@ -58,7 +58,7 @@ $app->match('/blog', function (Request $request) use ($app) {
 
     $newsletterFormView = $newsletterForm->createView();
 
-    return $app['twig']->render('blog.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles, 'nbOfComments' => $nbOfComments, 'newsletterForm' => $newsletterFormView));
+    return $app['twig']->render('blog.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles, 'newsletterForm' => $newsletterFormView));
 })->bind('blog');
 
 
@@ -261,13 +261,85 @@ $app->match('/admin/newsletter', function(Request $request) use ($app)
 
 })->bind('admin_newsletter_add');
 
-// Remove a comment
+// Remove a subscribers
 $app->get('/admin/newsletter/{id}/delete', function($id, Request $request) use ($app) {
     $app['dao.newsletter']->delete($id);
     $app['session']->getFlashBag()->add('success', 'L\'inscrit a bien été supprimé.');
     // Redirect to admin home page
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_subscriber_delete');
+
+
+//Page contact
+
+$app->match('/contact', function(Request $request) use ($app) {
+    $contact = new Contact();
+    $contactForm = $app['form.factory']->create(ContactType::class, $contact);
+    $contactForm->handleRequest($request);
+
+
+    if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+            $app['dao.contact']->save($contact);
+
+            $mailContent = $app['dao.contact']->find();
+
+            // Create the Transport
+            $transport = (new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
+            ->setUsername('arthurgeay.contact@gmail.com')
+            ->setPassword('lwhvjswfjrvutmnd');
+
+            // Create the Mailer 
+            $mailer = new Swift_Mailer($transport);
+
+            $body = 'Ce message a été envoyé par ' . $mailContent->getMail() .'<br /> ' . '<p><strong>Contenu du message : </strong></p><p>' .$mailContent->getContent() . '</p>';
+
+            $message = \Swift_Message::newInstance()
+                ->setSubject($mailContent->getTitle() . ' - Contact Jean Forteroche')
+                ->setFrom($mailContent->getMail())
+                ->setTo(array('arthur.geay@sfr.fr'))
+                ->setBody($body, 'text/html');
+
+            // Send the message
+            $result = $mailer->send($message);
+
+            if($result)
+            {
+                $app['dao.contact']->delete($mailContent->getId());
+                $app['session']->getFlashBag()->add('success', 'Votre message a bien été envoyé.');
+            }
+
+            
+        }
+
+        $contactFormView = $contactForm->createView();
+
+
+
+        //For the footer
+    $latestArticles = $app['dao.article']->findLatestArticles();
+
+    //Newsletter form 
+    $newsletter = new Newsletter();
+    $newsletterForm = $app['form.factory']->create(NewsletterType::class, $newsletter);
+    $newsletterForm->handleRequest($request);
+
+
+    if ($newsletterForm->isSubmitted() && $newsletterForm->isValid()) {
+            $app['dao.newsletter']->save($newsletter);
+            $app['session']->getFlashBag()->add('success', 'Vous êtes bien inscrit à la newsletter.');
+        }
+
+    $newsletterFormView = $newsletterForm->createView();
+
+    
+
+    return $app['twig']->render('contact.html.twig', array('contactForm' => $contactFormView, 'title' => 'Contact', 'latestArticles' => $latestArticles, 'newsletterForm' => $newsletterFormView));
+})->bind('contact');
+
+
+
+
+
 
 
 

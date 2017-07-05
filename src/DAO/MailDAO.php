@@ -40,8 +40,7 @@ class MailDAO extends DAO
 		if ($result)
 		{
 			return $this->buildDomainObject($result);
-		}
-            
+		} 
 	}
 
 	/**

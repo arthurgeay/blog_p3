@@ -59,29 +59,6 @@ class CommentDAO extends DAO
     }
 
     /**
-     * 
-     * Return number of comments
-     * 
-     * @return string 
-     */
-    public function count()
-    {
-        $sql = "SELECT COUNT(*) as numberOfComment FROM t_comment";
-        $result = $this->getDb()->fetchAll($sql);
-
-        $numberOfComment = array();
-        foreach($result as $row)
-        {
-            $numberOfComment[] = $row['numberOfComment'];
-        }
-
-        $nbOfCommentString = implode($numberOfComment);
-
-        return $nbOfCommentString;
-    }
-
-
-    /**
      * Returns a list of all comments, sorted by date (most recent first).
      *
      * @return array A list of all comments.

@@ -68,3 +68,8 @@ $app['dao.mail'] = function ($app)
 {
     return new blog_p3\DAO\MailDAO($app['db']);
 };
+
+$app['dao.contact'] = function ($app)
+{
+    return new blog_p3\DAO\ContactDAO($app['db']);
+};
