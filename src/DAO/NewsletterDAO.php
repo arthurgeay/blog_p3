@@ -45,6 +45,11 @@ class NewsletterDAO extends DAO
 		$newsletter->setId($id);
 	}
 
+	/**
+	 * Find subscribers
+	 * 
+	 * @return  array
+	 */
 	public function allMail()
 	{
 		$sql = 'SELECT nws_email FROM t_newsletter';
@@ -57,6 +62,31 @@ class NewsletterDAO extends DAO
 		}
 		
 		return $subscribers;
+	}
+
+	/**
+	 * Find all subscribers
+	 * 
+	 * @return  array
+	 */
+	public function findAll()
+	{
+		$sql = 'SELECT * FROM t_newsletter';
+		$result = $this->getDb()->fetchAll($sql);
+
+		$allSubscribers = array();
+		foreach($result as $row)
+		{
+			$subscribersId = $row['nws_id'];
+			$allSubscribers[$subscribersId] = $this->buildDomainObject($row);
+		}
+
+		return $allSubscribers;
+	}
+
+	public function delete($id)
+	{
+		$this->getDb()->delete('t_newsletter', array('nws_id' => $id));
 	}
 
 

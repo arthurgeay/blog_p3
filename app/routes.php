@@ -123,12 +123,14 @@ $app->get('/admin', function() use ($app) {
     $comsReports = $app['dao.comment']->findComReport();
 
     $subscribers = $app['dao.newsletter']->count();
+    $allSubscribers = $app['dao.newsletter']->findAll();
 
     return $app['twig']->render('/admin/admin.html.twig', array(
         'articles' => $articles,
         'comments' => $comments,
         'comsReports' => $comsReports,
-        'subscribers' => $subscribers
+        'subscribers' => $subscribers,
+        'allSubscribers' => $allSubscribers
         ));
 })->bind('admin');
 
@@ -255,9 +257,18 @@ $app->match('/admin/newsletter', function(Request $request) use ($app)
 
     $mailFormView = $mailForm->createView();
 
-    return $app['twig']->render('/admin/mail_form.html.twig', array('mailForm' => $mailFormView, 'title' => 'Newsletter'));
+    return $app['twig']->render('/admin/mail_form.html.twig', array('mailForm' => $mailFormView, 'title' => 'Rédiger une newsletter'));
 
 })->bind('admin_newsletter_add');
+
+// Remove a comment
+$app->get('/admin/newsletter/{id}/delete', function($id, Request $request) use ($app) {
+    $app['dao.newsletter']->delete($id);
+    $app['session']->getFlashBag()->add('success', 'L\'inscrit a bien été supprimé.');
+    // Redirect to admin home page
+    return $app->redirect($app['url_generator']->generate('admin'));
+})->bind('admin_subscriber_delete');
+
 
 
 
