@@ -1,3 +1,5 @@
 vendor/
 web/lib
 web/img
+var/
+tests/

@@ -2,10 +2,43 @@
 
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
+use Symfony\Component\HttpFoundation\Request;
+use blog_p3\Domain\Newsletter;
+use blog_p3\Form\Type\NewsletterType;
 
 // Register global error and exception handlers
 ErrorHandler::register();
 ExceptionHandler::register();
+
+// Register error handler
+$app->error(function (\Exception $e, Request $request, $code) use ($app) {
+    switch ($code) {
+        case 403:
+            $message = 'Accès refusé.';
+            break;
+        case 404:
+            $message = 'La ressource demandée n\'a pas pu être trouvée.';
+            break;
+        default:
+            $message = "Quelque chose s\'est mal passé !.";
+    }
+    $latestArticles = $app['dao.article']->findLatestArticles();
+
+    //Newsletter form 
+    $newsletter = new Newsletter();
+    $newsletterForm = $app['form.factory']->create(NewsletterType::class, $newsletter);
+    $newsletterForm->handleRequest($request);
+
+
+    if ($newsletterForm->isSubmitted() && $newsletterForm->isValid()) {
+            $app['dao.newsletter']->save($newsletter);
+            $app['session']->getFlashBag()->add('success', 'Vous êtes bien inscrit à la newsletter.');
+        }
+
+    $newsletterFormView = $newsletterForm->createView();
+
+    return $app['twig']->render('error.html.twig', array('message' => $message, 'latestArticles' => $latestArticles, 'newsletterForm' => $newsletterFormView));
+});
 
 // Register service providers
 $app->register(new Silex\Provider\DoctrineServiceProvider());
@@ -44,6 +77,12 @@ $app->register(new Silex\Provider\TranslationServiceProvider());
 
     
 $app->register(new Silex\Provider\SwiftmailerServiceProvider());
+
+$app->register(new Silex\Provider\MonologServiceProvider(), array(
+    'monolog.logfile' => __DIR__.'/../var/logs/blog_p3.log',
+    'monolog.name' => 'blog_p3',
+    'monolog.level' => $app['monolog.level']
+));
 
 // Register services
 $app['dao.article'] = function ($app) {
