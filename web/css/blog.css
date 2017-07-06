@@ -79,6 +79,11 @@ a:hover
 .navbar-default .navbar-toggle .icon-bar {
     background-color: #CCC;
 }
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form
+{
+	border-color: #E1E5E8;
+}
 @media (max-width: 767px) {
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
         color: #777;
