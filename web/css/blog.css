@@ -148,6 +148,15 @@ a:hover, .articleTitle:hover, .articleTitle:focus
 	text-decoration: none;
 }
 
+@media (max-width: 767px){
+	.responsive-title
+	{
+		font-size: 1em;
+	}
+}
+
+
+
 .article
 {
 	margin-bottom: 15px;
