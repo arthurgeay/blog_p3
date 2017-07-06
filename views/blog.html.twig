@@ -5,16 +5,17 @@
 {% block content %}
 
 {% for article in articles %}
-    <article>
-        <h2><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></h2>
+	<div class="article">
+    	<article>
+        	<h2><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></h2>
       
-        <p>Publié le {{article.date}}</p>
+        	<p>Publié le {{article.date}}</p>
 
-        <p>{{ article.content | truncate(500) | raw }}</p>
+        	<p>{{ article.content | truncate(500) | raw }}</p>
 
-        <a class="btn btn-primary" href="{{ path('article', { 'id': article.id }) }}">Lire la suite...</a>
-    </article>
-    <hr>
+        	<a class="btn btn-primary" href="{{ path('article', { 'id': article.id }) }}">Lire la suite...</a>
+    	</article>
+	</div>
 {% endfor %}
 {% endblock %}
         

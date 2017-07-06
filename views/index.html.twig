@@ -4,7 +4,6 @@
 
 {% block content %}
 
-<h2>Bienvenue sur le site de Jean Forteroche !</h2>
 <!-- Carousel -->
 
 <div id="carousel" class="carousel slide" data-ride="carousel">
@@ -28,6 +27,7 @@
                 <a href="{{ path('article', { 'id': slide.id }) }}">
                     <h1 class="carousel-caption">{{ slide.title }}</h1>
                 </a>
+                
             </div>
             {% set counter = counter + 1 %}
         {% endfor %}
@@ -45,6 +45,7 @@
 
     
     <!-- Bloc présentation -->
+    <div class="jumbotron">
     <h2>Présentation de l'auteur</h2>
 
     <p><img class="jprofil" src="{{ asset('/img/jeanf.jpeg')}}" /></p>
@@ -63,6 +64,7 @@
     <h4>Me suivre, me contacter ?</h4>
     <p>Pour me suivre sur les différents réseaux sociaux, vous pouvez cliquer sur les différents logos en bas de la page.
     <br /> Pour me contacter, il vous suffit de vous rendre sur la page <a href="contact">contact</a> de mon site. <br />Vous devrez remplir un formulaire de contact avec vos coordonnées et votre message.</p>
+    </div>
 
     {% endblock %}
       

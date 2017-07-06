@@ -6,11 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="{{ asset('/lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('/css/blog.css') }}" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <title>Jean Forteroche - {% block title %}{% endblock %}</title>
     </head>
     <body>
         <div class="container">
-            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+            <nav id="navColor" class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-target">
@@ -23,7 +25,7 @@
                     
                     <div class="collapse navbar-collapse" id="navbar-collapse-target">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="/"><i class="fa fa-home" aria-hidden="true"></i> Accueil</a></li>
+                            <li><a href="/"><i class="fa fa-home" aria-hidden="true"></i> Accueil</a></li>
                             <li><a href="/blog"><i class="fa fa-book" aria-hidden="true"></i> Blog</a></li>
                             <li><a href="/contact"><i class="fa fa-envelope-o" aria-hidden="true"></i> Contact</a></li>
                             </ul>

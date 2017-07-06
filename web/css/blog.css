@@ -1,36 +1,114 @@
 body { 
-    padding-top: 50px; 
+    padding-top: 50px;
+    font-family: 'Open Sans', sans-serif;
 }
 
-.footer {
-    border-top: 1px solid #ccc;
-    padding-top: 10px;
-}
-
-.fa:hover
+a
 {
-	color: orange;
+	color: #438EBA;
 }
 
-.fa-facebook-official
+a:hover
 {
-	color: #3b5998;
+	color: #40AAE8;
 }
 
-.fa-twitter-square
+/** Style navbar */
+.navbar-default
 {
-	color: #33CCFF;
+	background-color: #FDFEFF;
+	border-bottom: 1px solid #E1E5E8;
 }
 
-.fa-google-plus-square
-{
-	color: #DD4B39;
+/* Title */
+.navbar-default .navbar-brand {
+    color: #777;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #438EBA;
 }
 
-.fa-flickr
-{
-	color: #0063DC;
+/** Style navbar a:hover */
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #438EBA;
 }
+.navbar-default .navbar-nav > .active > a
+{
+    color: #9d9d9d;
+	background-color: #FDFEFF;
+}
+
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus
+{
+	color: #438EBA;
+	background-color: #FDFEFF;
+
+}
+
+/** Caret */
+.navbar-default .navbar-nav > .dropdown > a .caret {
+    border-top-color: #9d9d9d;
+    border-bottom-color: #40AAE8;
+}
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    color: #438EBA;
+    background-color: #E1E5E8;
+}
+
+.navbar-default .navbar-nav > .open > a .caret,
+.navbar-default .navbar-nav > .open > a:hover .caret,
+.navbar-default .navbar-nav > .open > a:focus .caret {
+    border-top-color: #438EBA;
+    border-bottom-color: #40AAE8;
+}
+
+/* Mobile version Nav */
+.navbar-default .navbar-toggle {
+    border-color: #DDD;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: #DDD;
+}
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #CCC;
+}
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: #777;
+    }
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+          color: #438EBA;
+    }
+}
+
+.carousel
+{
+	margin-top: 15px;
+}
+
+/** Style presentation block */
+
+.jumbotron
+{
+	margin-top: 15px;
+}
+
+.jumbotron p
+{
+	font-size: 1em;
+}
+
+
+
+/** Img Jean Forteroche and content */
 
 .item img
 {
@@ -56,17 +134,67 @@ body {
 	text-align: justify;
 }
 
-.articleTitle:hover, .articleTitle:focus
+
+
+/** Style for article title  */
+
+a:hover, .articleTitle:hover, .articleTitle:focus
 {
 	text-decoration: none;
 }
 
+.article
+{
+	margin-bottom: 15px;
+}
+
+.article:hover
+{
+	border: 1px solid #EFF4F7;
+	border-radius: 8px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+	margin-top: 15px;
+	margin-left: 15px;
+	background-color: #F9F9F9;
+}
+
+/** Style for admin  */
 .adminTable {
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
+/** Style for Error */
+
 #errorPanel {
     padding-top: 30px;
     padding-bottom: 10px;
+}
+
+/** Footer */
+.footer {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+.fa-facebook-official
+{
+	color: #3b5998;
+}
+
+.fa-twitter-square
+{
+	color: #33CCFF;
+}
+
+.fa-google-plus-square
+{
+	color: #DD4B39;
+}
+
+.fa-flickr
+{
+	color: #0063DC;
 }
