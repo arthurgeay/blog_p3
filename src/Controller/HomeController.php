@@ -27,8 +27,6 @@ class HomeController
 	 */
 	public function indexAction(Request $request, Application $app)
 	{
-		$articles = $app['dao.article']->findAll();
-
 	    $counter = $app['dao.article']->counterSlide();
 
 	    //For the footer and carousel
@@ -47,7 +45,7 @@ class HomeController
 
 	    $newsletterFormView = $newsletterForm->createView();
 
-	    return $app['twig']->render('index.html.twig', array('articles' => $articles, 'latestArticles' => $latestArticles, 'counter' => $counter, 'newsletterForm' => $newsletterFormView));
+	    return $app['twig']->render('index.html.twig', array('latestArticles' => $latestArticles, 'counter' => $counter, 'newsletterForm' => $newsletterFormView));
 	}
 
 	/**
@@ -154,11 +152,9 @@ class HomeController
 	 */
 	public function loginAction(Request $request, Application $app)
 	{
-	    $articles = $app['dao.article']->findAll();
 	    return $app['twig']->render('/admin/login.html.twig', array(
 	        'error'         => $app['security.last_error']($request),
-	        'last_username' => $app['session']->get('_security.last_username'),
-	        'articles' => $articles
+	        'last_username' => $app['session']->get('_security.last_username')
 	    ));
 	}
 

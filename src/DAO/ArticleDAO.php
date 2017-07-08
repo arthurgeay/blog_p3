@@ -125,7 +125,7 @@ class ArticleDAO extends DAO
      */
     public function save(Article $article) {
 
-        $now = $this->getDb()->fetchColumn("SELECT NOW()");  // Get the date of comment
+        $now = $this->getDb()->fetchColumn("SELECT NOW()");  
 
         $articleData = array(
             'art_title' => $article->getTitle(),

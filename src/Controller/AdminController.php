@@ -51,7 +51,7 @@ class AdminController
      */
     public function addArticleAction(Request $request, Application $app)
     {
-        $articles = $app['dao.article']->findAll();
+        //$articles = $app['dao.article']->findAll();
 
         $article = new Article();
         $articleForm = $app['form.factory']->create(ArticleType::class, $article);
@@ -61,7 +61,6 @@ class AdminController
             $app['session']->getFlashBag()->add('success', 'L\'article a bien été créé.');
         }
         return $app['twig']->render('/admin/article_form.html.twig', array(
-            'articles' => $articles,
             'title' => 'Nouvel article',
             'articleForm' => $articleForm->createView()));
     }

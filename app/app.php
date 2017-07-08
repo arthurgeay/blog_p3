@@ -10,36 +10,6 @@ use blog_p3\Form\Type\NewsletterType;
 ErrorHandler::register();
 ExceptionHandler::register();
 
-// Register error handler
-$app->error(function (\Exception $e, Request $request, $code) use ($app) {
-    switch ($code) {
-        case 403:
-            $message = 'Accès refusé.';
-            break;
-        case 404:
-            $message = 'La ressource demandée n\'a pas pu être trouvée.';
-            break;
-        default:
-            $message = "Quelque chose s\'est mal passé !.";
-    }
-    $latestArticles = $app['dao.article']->findLatestArticles();
-
-    //Newsletter form 
-    $newsletter = new Newsletter();
-    $newsletterForm = $app['form.factory']->create(NewsletterType::class, $newsletter);
-    $newsletterForm->handleRequest($request);
-
-
-    if ($newsletterForm->isSubmitted() && $newsletterForm->isValid()) {
-            $app['dao.newsletter']->save($newsletter);
-            $app['session']->getFlashBag()->add('success', 'Vous êtes bien inscrit à la newsletter.');
-        }
-
-    $newsletterFormView = $newsletterForm->createView();
-
-    return $app['twig']->render('error.html.twig', array('message' => $message, 'latestArticles' => $latestArticles, 'newsletterForm' => $newsletterFormView));
-});
-
 // Register service providers
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
@@ -112,3 +82,33 @@ $app['dao.contact'] = function ($app)
 {
     return new blog_p3\DAO\ContactDAO($app['db']);
 };
+
+// Register error handler
+$app->error(function (\Exception $e, Request $request, $code) use ($app) {
+    switch ($code) {
+        case 403:
+            $message = 'Accès refusé.';
+            break;
+        case 404:
+            $message = 'La ressource demandée n\'a pas pu être trouvée.';
+            break;
+        default:
+            $message = "Quelque chose s\'est mal passé !.";
+    }
+    $latestArticles = $app['dao.article']->findLatestArticles();
+
+    //Newsletter form 
+    $newsletter = new Newsletter();
+    $newsletterForm = $app['form.factory']->create(NewsletterType::class, $newsletter);
+    $newsletterForm->handleRequest($request);
+
+
+    if ($newsletterForm->isSubmitted() && $newsletterForm->isValid()) {
+            $app['dao.newsletter']->save($newsletter);
+            $app['session']->getFlashBag()->add('success', 'Vous êtes bien inscrit à la newsletter.');
+        }
+
+    $newsletterFormView = $newsletterForm->createView();
+
+    return $app['twig']->render('error.html.twig', array('message' => $message, 'latestArticles' => $latestArticles, 'newsletterForm' => $newsletterFormView));
+});
