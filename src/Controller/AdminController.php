@@ -154,7 +154,7 @@ class AdminController
 
                 // Create the Transport
                 $transport = (new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
-                ->setUsername('arthurgeay.contact@gmail.com')
+                ->setUsername('')
                 ->setPassword('lwhvjswfjrvutmnd');
 
                 // Create the Mailer 
