@@ -29,6 +29,7 @@ Actions possible :
 
 - **[Silex](https://silex.symfony.com/)** - Micro Framework PHP
 - **[TinyMCE](https://www.tiny.cloud/)** - Editeur WYSIWYG 
+- **[MySQL](https://www.mysql.com/fr/)** - Base de données relationnelle
 
 ## Auteur
 
